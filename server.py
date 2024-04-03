@@ -1,10 +1,11 @@
 from os.path import dirname, realpath
 from detector import *
-from flask import Flask, request
+from flask import Flask, request,send_file,url_for
 from flask_restful import Resource, Api
+from TextToSpeech import ToMP3
 import os
 import uuid
-
+AudioPath = (dirname(realpath(__file__))+ '/API/Audio/')
 app = Flask(__name__)
 api = Api(app)
 
@@ -21,18 +22,29 @@ class AuthFace(Resource):
             image.save(os.path.join(UPLOADS_PATH, normalizedName))
             #print(os.path.join(UPLOADS_PATH, normalizedName))
             name = validate(os.path.join(UPLOADS_PATH, normalizedName))
+            pathAudio =""
             if name==None or name=="Unknown":
                 status =False
             else:
                 status = True
+                pathAudio = '/download/Audio/'+str(ToMP3(name))+'.mp3'
         return {'isTrue': status,
-                'stuCode': name
+                'stuCode': name,
+                'audioUrl':pathAudio
                 }
 class index(Resource):
     def get(self):
         return {'isConnect': True}
 
 api.add_resource(AuthFace, '/AuthFace')  # Route_1
+@app.route('/download/<folder_name>/<filename>')
+def download(folder_name,filename):
+    if '/' in filename or '\\' in filename:
+        return 'Not Found'
+    else:
+        #path = "/API/"+str(folder_name)+"/"+str(filename)
+        path = (dirname(realpath(__file__)) + '/API/'+folder_name+'/'+filename)
+        return send_file(path, as_attachment=True)
 api.add_resource(index, '/')  # Route_1
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5000)
