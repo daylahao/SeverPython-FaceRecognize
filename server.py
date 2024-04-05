@@ -24,10 +24,11 @@ class AuthFace(Resource):
             name = validate(os.path.join(UPLOADS_PATH, normalizedName))
             pathAudio =""
             if name==None or name=="Unknown":
+                name = "Unknown"
                 status =False
             else:
                 status = True
-                pathAudio = '/download/Audio/'+str(ToMP3(name))+'.mp3'
+            pathAudio = '/download/Audio/'+str(ToMP3(name))+'.mp3'
         return {'isTrue': status,
                 'stuCode': name,
                 'audioUrl':pathAudio
