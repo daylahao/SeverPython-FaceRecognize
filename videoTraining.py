@@ -5,7 +5,8 @@ import face_recognition
 import os
 from collections import Counter
 from PIL import Image, ImageDraw
-FileVideo  ="training/v_Hammering_g06_c05.avi"
+ImageLimit = 115 #Số hình giới hạn khi lấy
+FileVideo = ""
 PATH_FOLDER_ROOT = "./Cropfile/"
 video_capture = cv2.VideoCapture(0)
 face_classifier = cv2.CascadeClassifier(
@@ -36,7 +37,7 @@ def getVideoCamera():
             cv2.imwrite(pathfolder+'/'+filename,video_frame)
             i=i+1
         cv2.imshow("View", video_frame)
-        if cv2.waitKey(1) & 0xFF == ord("q"):
+        if cv2.waitKey(1) & 0xFF == ord("q")or i>ImageLimit:
             break
     video_capture.release()
     cv2.destroyAllWindows()
