@@ -16,5 +16,5 @@ def Openfile(model: str = "hog", encodings_location: Path = DEFAULT_ENCODINGS_PA
             name_encodings = pickle.load(f)
             names = name_encodings["names"]
             encodings = name_encodings["encodings"]
-        print(encodings)
+        print(names)
 Openfile()
