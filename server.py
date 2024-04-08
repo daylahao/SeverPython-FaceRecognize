@@ -8,7 +8,6 @@ import uuid
 AudioPath = (dirname(realpath(__file__))+ '/API/Audio/')
 app = Flask(__name__)
 api = Api(app)
-
 class AuthFace(Resource):
     def post(self):
         status:bool
@@ -28,14 +27,16 @@ class AuthFace(Resource):
                 status =False
             else:
                 status = True
-            pathAudio = '/download/Audio/'+str(ToMP3(name))+'.mp3'
+            pathAudio ='http://'+request.remote_addr+':5000/download/Audio/'+str(ToMP3(name))+'.mp3'
         return {'isTrue': status,
                 'stuCode': name,
                 'audioUrl':pathAudio
                 }
 class index(Resource):
     def get(self):
-        return {'isConnect': True}
+        return {'isConnect': True,
+                'ip':request.remote_addr,
+                }
 
 api.add_resource(AuthFace, '/AuthFace')  # Route_1
 @app.route('/download/<folder_name>/<filename>')
