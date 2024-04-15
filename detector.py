@@ -84,6 +84,7 @@ def _recognize_face(unknown_encoding, loaded_encodings):
                     if match
                     )
     if votes:
+        # print(votes.most_common(1)[0][0])
         return votes.most_common(1)[0][0]
 
 # BOUNDING_BOX_COLOR = "blue"
@@ -111,8 +112,15 @@ def validate(image_file,model: str = "hog"):
     #             image_location=str(filepath.absolute()), model=model
     #         )
     name = recognize_faces(image_location=str(image_file), model=model)
-    print(name)
-    return name
+    if(name=='Unknown'):
+        stuCode="Unknown"
+        stuName="Unknown"
+    elif(name==None):
+            stuCode=None
+            stuName=None
+    else:
+        stuCode,stuName= name.split("-")
+    return stuCode,stuName
 
 
 

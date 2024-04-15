@@ -13,6 +13,7 @@ class AuthFace(Resource):
         status:bool
         UPLOADS_PATH = (dirname(realpath(__file__))+ '/API/img')
         wallpaper = request.files['file']
+        subject= request.values['subject']
         if wallpaper.filename != '':
             image = request.files['file']
             arrName = image.filename.split('\.')
@@ -20,16 +21,28 @@ class AuthFace(Resource):
             normalizedName = str(uuid.uuid4()) + '.' +ext
             image.save(os.path.join(UPLOADS_PATH, normalizedName))
             #print(os.path.join(UPLOADS_PATH, normalizedName))
-            name = validate(os.path.join(UPLOADS_PATH, normalizedName))
+            stuCode,name = validate(os.path.join(UPLOADS_PATH, normalizedName))
+            print(stuCode)
             pathAudio =""
-            if name==None or name=="Unknown":
-                name = "Unknown"
+            if stuCode==None:
+                cause = 0
+                name = None
                 status =False
+                pathAudio=None
+            elif stuCode=="Unknown":
+                cause=1
+                name=None
+                status = False
+                pathAudio = None
             else:
+                cause=1
                 status = True
-            pathAudio ='http://'+request.remote_addr+':5000/download/Audio/'+str(ToMP3(name))+'.mp3'
+                pathAudio = 'http://' + request.remote_addr + ':5000/download/Audio/' + str(ToMP3(stuCode,name,subject)) + '.mp3'
+
         return {'isTrue': status,
-                'stuCode': name,
+                'cause':cause,
+                'stuCode': stuCode,
+                'name': name,
                 'audioUrl':pathAudio
                 }
 class index(Resource):
