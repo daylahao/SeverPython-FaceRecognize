@@ -24,20 +24,17 @@ class AuthFace(Resource):
             stuCode,name = validate(os.path.join(UPLOADS_PATH, normalizedName))
             print(stuCode)
             pathAudio =""
-            if stuCode==None:
-                cause = 0
+            if stuCode==None or stuCode=="Unknown":
+                stuCode=None
+                cause = 1
                 name = None
                 status =False
                 pathAudio=None
-            elif stuCode=="Unknown":
-                cause=1
-                name=None
-                status = False
-                pathAudio = None
             else:
-                cause=1
+                cause=0
                 status = True
-                pathAudio = 'http://' + request.remote_addr + ':5000/download/Audio/' + str(ToMP3(stuCode,name,subject)) + '.mp3'
+                # pathAudio = 'http://' + request.remote_addr + ':5000/download/Audio/' + str(ToMP3(stuCode,name,subject)) + '.mp3'
+                pathAudio = str(ToMP3(stuCode,name,subject))
 
         return {'isTrue': status,
                 'cause':cause,
