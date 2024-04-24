@@ -34,8 +34,8 @@ class AuthFace(Resource):
                 cause=0
                 status = True
                 # pathAudio = 'http://' + request.remote_addr + ':5000/download/Audio/' + str(ToMP3(stuCode,name,subject)) + '.mp3'
-                pathAudio = str(ToMP3(stuCode,name,subject))
-
+                # pathAudio = str(ToMP3(stuCode,name,subject))
+                pathAudio = None
         return {'isTrue': status,
                 'cause':cause,
                 'stuCode': stuCode,

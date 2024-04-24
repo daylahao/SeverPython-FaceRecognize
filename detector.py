@@ -3,7 +3,7 @@ import pickle
 import face_recognition
 from collections import Counter
 from PIL import Image, ImageDraw
-
+IMAGE_FOR_TRAINING = 115
 DEFAULT_ENCODINGS_PATH  = Path("output/encoding.pkl")
 
 Path("training").mkdir(exist_ok=True)
@@ -83,10 +83,10 @@ def _recognize_face(unknown_encoding, loaded_encodings):
                     for match, name in zip(boolean_matches, loaded_encodings["names"])
                     if match
                     )
-    if votes:
-        # print(votes.most_common(1)[0][0])
-        return votes.most_common(1)[0][0]
-
+    if votes and (votes.most_common(1)[0][1]/IMAGE_FOR_TRAINING)*100>80:
+            return votes.most_common(1)[0][0]
+    else:
+        return None
 # BOUNDING_BOX_COLOR = "blue"
 # TEXT_COLOR = "white"
 # def _display_face(draw, bounding_box, name):
