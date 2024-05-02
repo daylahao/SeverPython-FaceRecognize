@@ -24,12 +24,17 @@ class AuthFace(Resource):
             stuCode,name = validate(os.path.join(UPLOADS_PATH, normalizedName))
             print(stuCode)
             pathAudio =""
-            if stuCode==None or stuCode=="Unknown":
+            if stuCode==None:
                 stuCode=None
                 cause = 1
                 name = None
                 status =False
                 pathAudio=None
+            elif stuCode =="Unknown":
+                cause = -1
+                name = None
+                status = False
+                pathAudio = None
             else:
                 cause=0
                 status = True
@@ -40,7 +45,7 @@ class AuthFace(Resource):
                 'cause':cause,
                 'stuCode': stuCode,
                 'name': name,
-                'audioUrl':pathAudio
+                # 'audioUrl':pathAudio
                 }
 class index(Resource):
     def get(self):

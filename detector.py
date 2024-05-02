@@ -56,21 +56,20 @@ def recognize_faces(
     input_face_encodings = face_recognition.face_encodings(
         input_image, input_face_locations
     )
-    pillow_image = Image.fromarray(input_image)
-    # draw = ImageDraw.Draw(pillow_image)
-    i=0
-    name = "Unknown"
-    for bounding_box, unknown_encoding in zip(input_face_locations, input_face_encodings):
-        i=i+1
-        name = _recognize_face(unknown_encoding, loaded_encodings)
-        if not name:
-            name = "Unknown"
-        # _display_face(draw, bounding_box, name)
-    if i>1:
-        name = None
-        return name
+    if(input_face_encodings!=[]):
+        pillow_image = Image.fromarray(input_image)
+        # draw = ImageDraw.Draw(pillow_image)
+        i=0
+        name = "Unknown"
+        for bounding_box, unknown_encoding in zip(input_face_locations, input_face_encodings):
+            i=i+1
+            name = _recognize_face(unknown_encoding, loaded_encodings)
+            if not name:
+                name = "Unknown"
+            # _display_face(draw, bounding_box, name)
     else:
-        return name
+        name = None
+    return name
         # return name
     # del draw
     #pillow_image.show()
@@ -84,6 +83,7 @@ def _recognize_face(unknown_encoding, loaded_encodings):
                     if match
                     )
     if votes and (votes.most_common(1)[0][1]/IMAGE_FOR_TRAINING)*100>80:
+            print((votes.most_common(1)[0][1] / IMAGE_FOR_TRAINING) * 100)
             return votes.most_common(1)[0][0]
     else:
         return None
