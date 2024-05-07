@@ -3,12 +3,14 @@ from detector import *
 from flask import Flask, request,send_file,url_for
 from flask_restful import Resource, Api
 from TextToSpeech import ToMP3
+from flask_cors import CORS, cross_origin
 import os
 import uuid
 AudioPath = (dirname(realpath(__file__))+ '/API/Audio/')
 app = Flask(__name__)
 api = Api(app)
 class AuthFace(Resource):
+    @cross_origin()
     def post(self):
         status:bool
         UPLOADS_PATH = (dirname(realpath(__file__))+ '/API/img')
