@@ -82,8 +82,8 @@ def _recognize_face(unknown_encoding, loaded_encodings):
                     for match, name in zip(boolean_matches, loaded_encodings["names"])
                     if match
                     )
-    if votes and (votes.most_common(1)[0][1]/IMAGE_FOR_TRAINING)*100>80:
-            print((votes.most_common(1)[0][1] / IMAGE_FOR_TRAINING) * 100)
+    if votes and (votes.most_common(1)[0][1]/IMAGE_FOR_TRAINING)*100>=95:
+            print(votes.most_common(1))
             return votes.most_common(1)[0][0]
     else:
         return None

@@ -5,10 +5,10 @@ import face_recognition
 import os
 from collections import Counter
 from PIL import Image, ImageDraw
-ImageLimit = 115 #Số hình giới hạn khi lấy
-FileVideo = ""
+ImageLimit = 200 #Số hình giới hạn khi lấy
+FileVideo = "D:\\Learn\\Nam 4\\IOT\\Project_Python\\Data\\N20DCPT044.mp4"
 PATH_FOLDER_ROOT = "./Cropfile/"
-video_capture = cv2.VideoCapture(0)
+video_capture = cv2.VideoCapture(FileVideo)
 face_classifier = cv2.CascadeClassifier(
     cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
 )
